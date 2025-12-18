@@ -1,6 +1,7 @@
 from plotune_sdk import FormLayout
 from serial.tools import list_ports
 
+
 def discover_serial_ports():
     return [p.device for p in list_ports.comports()] or ["AUTO"]
 
@@ -122,3 +123,35 @@ def dynamic_arduino_form():
         )
 
     return form.to_schema()
+
+
+from core.models.form_input import FormInput
+from uuid import uuid4
+
+def form_dict_to_input(data: dict) -> FormInput:
+    line_key = data.get("line_key") or uuid4().hex[:6]
+
+    def safe_int(val, default=None):
+        try:
+            return int(val)
+        except (TypeError, ValueError):
+            return default
+
+    return FormInput(
+        serial_port=data.get("serial_port", "AUTO"),
+        baudrate=safe_int(data.get("baudrate"), 115200),
+
+        line_enable=bool(data.get("line_enable", True)),
+        line_key=line_key,
+
+        csv_enable=bool(data.get("csv_enable", False)),
+        csv_delimiter=data.get("csv_delimiter", ","),
+        csv_key_index=safe_int(data.get("csv_key_index"), 0),
+        csv_value_index=safe_int(data.get("csv_value_index"), 1),
+        csv_time_index=safe_int(data.get("csv_time_index"), None),
+
+        json_enable=bool(data.get("json_enable", False)),
+        json_key_field=data.get("json_key_field", "key"),
+        json_value_field=data.get("json_value_field", "value"),
+        json_time_field=data.get("json_time_field", "time"),
+    )
