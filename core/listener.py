@@ -24,9 +24,9 @@ class ArduinoQueueListener:
                 if msg is None:
                     break
                 if asyncio.iscoroutinefunction(data_handler):
-                    await data_handler(msg)
+                    await data_handler(sm_id, msg)
                 else:
-                    data_handler(msg)
+                    data_handler(sm_id, msg)
 
         async def _error_loop():
             while True:
@@ -34,9 +34,9 @@ class ArduinoQueueListener:
                 if err is None:
                     break
                 if asyncio.iscoroutinefunction(error_handler):
-                    await error_handler(err)
+                    await error_handler(sm_id, err)
                 else:
-                    error_handler(err)
+                    error_handler(sm_id, err)
 
         self.tasks[sm_id] = loop.create_task(_data_loop())
         self.tasks[f"{sm_id}_err"] = loop.create_task(_error_loop())
