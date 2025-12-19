@@ -6,7 +6,7 @@ echo "Plotune Arduino Extension Builder (Linux)"
 echo "=================================================="
 
 APP_NAME="plotune_arduino_ext"
-ARCHIVE_NAME="plotune_arduino_ext_linux_x86_arm.tar.gz"
+ARCHIVE_NAME="plotune-arduino-ext-linux-x86_64.tar.gz"
 DIST_DIR="dist"
 HISTORY_DIR="$DIST_DIR/history"
 VENV_DIR="..venv"
@@ -55,6 +55,9 @@ cp src/plugin.json "$DIST_DIR/$APP_NAME/plugin.json"
 echo "Creating tar.gz archive..."
 cd "$DIST_DIR"
 tar -czf "$ARCHIVE_NAME" "$APP_NAME"
+
+sha256sum $ARCHIVE_NAME > $ARCHIVE_NAME.sha256
+
 cd ..
 
 echo "=================================================="

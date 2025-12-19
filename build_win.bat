@@ -30,7 +30,7 @@ if errorlevel 1 (
 )
 
 :: Set variables
-set ZIP_NAME=plotune_arduino_ext_windows_x86_arm.zip
+set ZIP_NAME=plotune-arduino-ext-windows-x86_64.zip
 set DIST_DIR=dist
 set HISTORY_DIR=%DIST_DIR%\history
 
@@ -63,6 +63,11 @@ echo Creating ZIP archive...
 cd dist
 timeout 2
 powershell -Command "Compress-Archive -Path plotune_arduino_ext\* -DestinationPath %ZIP_NAME% -Force"
+timeout 1
+
+echo Certification of %ZIP_NAME%
+certutil -hashfile %ZIP_NAME% SHA256 | findstr /v "hash" > %ZIP_NAME%.sha256
+
 cd ..
 
 echo ==================================================
