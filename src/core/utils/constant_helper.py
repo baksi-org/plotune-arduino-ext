@@ -18,8 +18,7 @@ if USE_AVAILABLE_PORT:
 @lru_cache(maxsize=1)
 def get_config() -> dict:
     conf = json.load(open(CONFIG_PATH, "r"))
-    if conf["connection"]["port"] == 0:
-        conf["connection"]["port"] = AVAILABLE_PORT
+    conf["connection"]["port"] = AVAILABLE_PORT
     return conf
 
 @lru_cache(maxsize=1)
