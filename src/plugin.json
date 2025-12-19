@@ -1,7 +1,7 @@
 {
     "name": "Plotune Arduino Extension",
     "id": "plotune_arduino_ext",
-    "version": "1.0.0",
+    "version": "v0.1.0",
     "description": "Plug-and-play Arduino serial data acquisition and real-time streaming for Plotune Core.",
     "mode": "online",
     "author": "Plotune SDK Team",
