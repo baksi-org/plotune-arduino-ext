@@ -1,26 +1,22 @@
-# Stage 1: Builder
-FROM python:3.12-slim AS builder
+# Base image: glibc uyumlu ve Python 3.11
+FROM python:3.11-slim-bullseye
 
-WORKDIR /app
+# Gereken paketler
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    python3-venv \
+    zip \
+    tar \
+    && rm -rf /var/lib/apt/lists/*
 
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
-        build-essential \
-        binutils \
-        libjpeg-dev \
-        zlib1g-dev \
-        && rm -rf /var/lib/apt/lists/*
+# Çalışma dizini
+WORKDIR /src
 
-COPY requirements.txt ./
-RUN pip install -r requirements.txt pyinstaller
+# Proje dosyalarını container’a kopyala
+COPY . /src
 
-COPY src/ ./src
+# VENV dizini container içinde de ..venv olacak
+ENV VENV_DIR=..venv
 
-WORKDIR /app/src
-RUN pyinstaller --onefile main.py --name plotune-arduino
-
-# Stage 2: Host output
-FROM alpine:latest AS output
-WORKDIR /output
-
-COPY --from=builder /app/src/dist/plotune-arduino ./
+# Build script’i çalıştırabiliriz
+CMD ["bash", "build_linux.sh"]
