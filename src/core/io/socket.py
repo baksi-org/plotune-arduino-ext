@@ -3,6 +3,7 @@ import asyncio
 from fastapi import WebSocket, WebSocketDisconnect
 from typing import Any
 
+
 class SocketHandler:
     def __init__(self, runner):
         self.runner = runner

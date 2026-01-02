@@ -2,6 +2,7 @@ from dataclasses import dataclass
 from typing import Optional
 from uuid import uuid4
 
+
 @dataclass
 class FormInput:
     serial_port: str = "AUTO"

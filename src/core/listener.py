@@ -1,7 +1,10 @@
 import asyncio
 from typing import Dict, Any, Union, Callable, Awaitable
 
-HandlerType = Union[Callable[[Dict[str, Any]], None], Callable[[Dict[str, Any]], Awaitable[None]]]
+HandlerType = Union[
+    Callable[[Dict[str, Any]], None], Callable[[Dict[str, Any]], Awaitable[None]]
+]
+
 
 class ArduinoQueueListener:
     def __init__(self):
@@ -14,7 +17,7 @@ class ArduinoQueueListener:
         error_queue: asyncio.Queue,
         data_handler: HandlerType,
         error_handler: HandlerType,
-        loop: asyncio.AbstractEventLoop = None
+        loop: asyncio.AbstractEventLoop = None,
     ):
         loop = loop or asyncio.get_event_loop()
 

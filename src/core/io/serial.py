@@ -68,9 +68,9 @@ class SerialManager:
         csv_val_idx = self._safe_index(self.form.csv_value_index)
         csv_time_idx = self._safe_index(self.form.csv_time_index)
 
-        json_key_field = (self.form.json_key_field or "key")
-        json_value_field = (self.form.json_value_field or "value")
-        json_time_field = (self.form.json_time_field or "time")
+        json_key_field = self.form.json_key_field or "key"
+        json_value_field = self.form.json_value_field or "value"
+        json_time_field = self.form.json_time_field or "time"
 
         line_key = self.form.line_key or uuid4().hex[:6]
 
@@ -143,11 +143,17 @@ class SerialManager:
                 if val_f is None:
                     err = {"type": "line_value_parse_error", "line": raw}
                 else:
-                    parsed = {"key": line_key, "value": float(val_f), "time": time.time()}
+                    parsed = {
+                        "key": line_key,
+                        "value": float(val_f),
+                        "time": time.time(),
+                    }
 
             if parsed is not None:
                 await self.queue.put(parsed)
             else:
-                await self.error_queue.put(err or {"type": "unknown_parse_error", "line": raw})
+                await self.error_queue.put(
+                    err or {"type": "unknown_parse_error", "line": raw}
+                )
 
             await asyncio.sleep(0.01)
