@@ -1,3 +1,5 @@
+from uuid import uuid4
+from core.models.form_input import FormInput
 from plotune_sdk import FormLayout
 from serial.tools import list_ports
 
@@ -76,10 +78,6 @@ def dynamic_arduino_form():
     )
 
     return form.to_schema()
-
-
-from core.models.form_input import FormInput
-from uuid import uuid4
 
 
 def form_dict_to_input(data: dict) -> FormInput:

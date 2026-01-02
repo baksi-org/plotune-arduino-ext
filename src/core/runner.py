@@ -97,9 +97,9 @@ class ArduinoExtensionRunner:
             _sm = SerialManager(_sm_id, form)
             self.serial_managers[_sm_id] = _sm
 
-            self.data_queues[_sm_id] = (
-                _sm.queue
-            )  # TODO: Holding it for reference for gb, not sure if it is a good decision
+            # TODO: Holding it for reference for gb, not sure if it is a good
+            # decision
+            self.data_queues[_sm_id] = _sm.queue
             self.error_queues[_sm_id] = _sm.error_queue
 
             await _sm.start()
